@@ -6,9 +6,10 @@ import (
 
 	"takehome-cbi/golang-be/auth"
 	"takehome-cbi/golang-be/handlers"
-
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/gin-contrib/cors"
+	"time"
 )
 
 func main() {
@@ -18,6 +19,16 @@ func main() {
 	}
 
 	r := gin.Default()
+
+	// CORS config
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"}, // FE dev
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	// Public route
 	r.POST("/login", auth.Login)
