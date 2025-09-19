@@ -16,7 +16,24 @@ var items = []models.Item{
 var nextID = 3
 
 func GetItems(c *gin.Context) {
-	c.JSON(http.StatusOK, items)
+	c.JSON(http.StatusOK, gin.H{
+		"status": 200,
+		"message": "Data Retrieved successfully!",
+		"data":items})
+}
+
+func GetItem(c *gin.Context) {
+	id, _ := strconv.Atoi(c.Param("id"))
+	for _, item := range items {
+		if item.ID == id {
+			c.JSON(http.StatusOK, gin.H{
+				"status": 200,	
+				"message": "Data Retrieved successfully!",
+				"data":item})
+			return
+		}
+	}
+	c.JSON(http.StatusNotFound, gin.H{"error": "item not found"})
 }
 
 func CreateItem(c *gin.Context) {
@@ -30,7 +47,10 @@ func CreateItem(c *gin.Context) {
 	newItem.ID = nextID
 	nextID++
 	items = append(items, newItem)
-	c.JSON(http.StatusCreated, newItem)
+	c.JSON(http.StatusCreated, gin.H{
+		"status": 200,
+		"message": "Data Created successfully!",
+		"data":newItem})
 }
 
 func UpdateItem(c *gin.Context) {
@@ -45,7 +65,10 @@ func UpdateItem(c *gin.Context) {
 		if item.ID == id {
 			items[i].Name = updatedItem.Name
 			items[i].Price = updatedItem.Price
-			c.JSON(http.StatusOK, items[i])
+			c.JSON(http.StatusOK, gin.H{
+				"status": 200,
+				"message": "Data Retrieved successfully!",
+				"data":items[i]})
 			return
 		}
 	}
@@ -57,7 +80,11 @@ func DeleteItem(c *gin.Context) {
 	for i, item := range items {
 		if item.ID == id {
 			items = append(items[:i], items[i+1:]...)
-			c.JSON(http.StatusOK, gin.H{"message": "deleted"})
+			c.JSON(http.StatusOK, gin.H{
+				"status": 200,
+				"message": "Data deleted successfully",
+				"data": item,
+			})
 			return
 		}
 	}

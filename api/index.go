@@ -48,6 +48,7 @@ func init() {
 	protected.Use(auth.AuthMiddleware())
 	{
 		protected.GET("/items", handlers.GetItems)
+		protected.GET("/item/:id", handlers.GetItem)
 		protected.POST("/items", handlers.CreateItem)
 		protected.PUT("/items/:id", handlers.UpdateItem)
 		protected.DELETE("/items/:id", handlers.DeleteItem)
