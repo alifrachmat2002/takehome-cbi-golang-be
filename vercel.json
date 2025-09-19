@@ -1,0 +1,17 @@
+{
+    "version": 2,
+    "functions": {
+        "api/index.go": {
+            "runtime": "go1.x"
+        }
+    },
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/api/index.go"
+        }
+    ],
+    "env": {
+        "GIN_MODE": "release"
+    }
+}
